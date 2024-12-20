@@ -14,6 +14,10 @@ model Product {
   area String
   orders    OrderItem[]
   createdAt DateTime @default(now())
+
+  @@index([category])    // Index on category
+  @@index([area])        // Index on area
+  @@index([createdAt])   // Index on createdAt
 }
 
 model Order {
@@ -30,4 +34,7 @@ model OrderItem {
   productId Int
   order     Order    @relation(fields: [orderId], references: [id])
   orderId   Int
+
+  @@index([productId])   // Index on productId for better join performance
+  @@index([orderId])     // Index on orderId for better join performance
 }

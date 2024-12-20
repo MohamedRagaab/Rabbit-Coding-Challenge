@@ -1,81 +1,87 @@
 
-# Rabbit Coding Challenge
+# Rabbit Coding Challenge   
 
-## Objective
+## Languages and frameworks 📑
+* TypeScript
+* NestJs
+* MySQL
+* Redis
+## Features 🥇
+* High performance listing products & orders checkout
+## Cloning the repo and starting the app
+* clone the repository and open the project in any IDE
+``` bash
+git clone https://github.com/MohamedRagaab/Rabbit-Coding-Challenge.git
+cd Rabbit-Coding-Challenge
+```
+* You can run the following command to test the app
+``` bash
+npm test
+```
+* You can run the following command to run the app
+``` bash
+npm start
+```
+## Usage 🚀
+* Here is the list of the RESTful APIs
+    - Product:
+        - List Products:
+            ``` bash
+            curl --location 'http://localhost:8080/product?categories=Product%201%20Category%2CProduct%202%20Category&orderBy=id&sortOrder=desc'
+            ```
+        - List Top 10 Most Frequently Ordered Products:
+            ``` bash
+            curl --location 'http://localhost:8080/product/top-ordered?area=New%20Cairo'
+            ```
+    - Order:
+        - Create Order:
+            ``` bash
+            curl --location 'http://localhost:8080/order' \
+                --header 'Content-Type: application/json' \
+                --data '{
+                    "customerId": 1,
+                    "products" : [
+                        {
+                            "productId": 1,
+                            "quantity": 2
+                        }
+                    ]
+                }'
+            ```
+           
+## Assumptions 📋
+- Assume using MySQL as our main Database to store product and order information.
+- Assume using Redis in-memory key-value database for caching.
 
-The goal of this task is to evaluate your coding abilities and assess your understanding of business requirements by simulating a real-world scenario at Rabbit. This task is designed to test your skills in developing a feature for Rabbit while also optimizing existing code for performance. The task should take no more than 3-4 hours to complete.
-
-Please ensure that the code you write is production-ready. If you make any compromises or assumptions during the task, document them. Be clear about any steps you'd take if you had more time to improve the solution.
-
----
-
-## Business Context
-
-Rabbit operates multiple stores across the region, processing thousands of orders each day across various locations. The company is working to enhance its system to provide a better user experience for customers.
-
----
-
-## Requirements
+## Technical Discussion 🚩
 
 ### 1. **Top 10 Most Frequently Ordered Products API**
+To implement a **/top-ordered** API, we have to discuss some performance considerations
 
-- Develop an API that returns the **top 10 most frequently ordered products** in a specific area. The area can be identified based on the location or region.
-- This API will be integrated into a mobile application and displayed on the user’s home screen.
-- The API should be designed to handle millions of requests efficiently, as Rabbit’s homepage experiences significant traffic.
+1. **GroupBy Query**:
+    - Efficient querying and aggregation using SQL native query to minimize latency.
+2. **Data Caching**:
+    - Caching with suitable TTL for high-demand queries to prevent repeated heavy database access.
 
 ### 2. **Optimizing a Poorly Implemented List Products API**
+To optimize the **/products** API let's address the problems in the current implementation
 
-- There is an existing API to list products (/products), but it has **poor performance** due to inefficient database queries and bad code practices. You are tasked with reviewing and optimizing this API for better performance.
-- Feel free to change the API response and request contracts (eg. DTO, Filters, ..etc) for the seek of making the API more efficient and reliable
-- Refactor and improve the performance of the current implementation to ensure it can handle large-scale traffic efficiently.
+1. **N+1 Query Problem**:
+    - Fetching products in a loop for each category generates multiple sequential queries, causing significant latency as the number of categories increases.
+2. **Redundant Queries**:
+    - After looping through categories, a findMany query fetches all products, ignoring applied filters.
+3. **No Pagination**:
+    - Fetching all products without pagination or limiting results impacts performance under high traffic.
+4. **Lack of Sorting**:
+    - No way to control the order of products in the response.
+5. **Incomplete Filters**:
+    - Filters like categories are present but not utilized effectively. Additional filters are missing.
 
----
-
-## Technical Requirements
-
-### 1. **Environment Setup**
-
-- Install **Node.js** (version 20 or higher).
-- Set up any **SQL database** (such as PostgreSQL or MySQL) to store product and order information.
-- Review and understand the dependencies in the provided `package.json`. Identify libraries you may use to improve performance.
-- Run `yarn prisma:generate`
-- Run `yarn migrate:dev`
-- Run `yarn seed`
-
-### 2. **Test Cases**
-
-- Write the necessary test cases to ensure the correctness of your implementation.
-- Ensure that the **API for fetching the top 10 most ordered products** is accurate and performs as expected.
-
-### 3. **Documentation**
-
-- Document any **assumptions** made during the task.
-- If you had more time, describe additional optimizations you would consider.
-
----
-
-## Bonus Points (Optional)
-
-- If you have more time, consider **integration with any notification library** (e.g., **Pushover**) to receive notifications after a new order is created.
-
----
-
-## Submission Instructions
-
-- Ensure your code is clean, modular, and easy to maintain.
-- Provide clear instructions on how to set up and run your code.
-- Commit and push your work to a public repository (GitHub or GitLab), and provide a link to the repository.
-
----
-
-## Evaluation Criteria
-
-- Code quality, modularity, and readability.
-- Efficient handling of performance-related issues.
-- Proper handling of database queries and optimizations.
-- Correctness of the implemented solution.
-- Documentation of assumptions and possible improvements.
-
----
-
-Good luck with the challenge! We look forward to reviewing your submission.
+## Check List ✅
+- [x] Implementing Top 10 Most Frequently Ordered Products API in a Specific Area.
+- [x] Optimizing the Database query and indexing Using Redis to handle millions of requests efficiently.
+- [x] Optimizing a Poorly Implemented List Products API
+- [x] Changing the DTO and the filters to be more general and advanced.
+- [x] Implementing modular and clean code and minimize the number of database queries.
+- [x] Writing test cases to ensure the correctness of your implementation.
+- [x] Integrating with **Pushover** to receive notifications after a new order is created.
