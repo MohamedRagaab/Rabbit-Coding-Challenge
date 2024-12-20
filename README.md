@@ -17,6 +17,9 @@ cd Rabbit-Coding-Challenge
 * You can run the following command to build the app
 ``` bash
 yarn install
+yarn prisma:generate
+yarn migrate:dev
+yarn seed
 ```
 * You can run the following command to test the app
 ``` bash
