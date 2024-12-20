@@ -84,7 +84,7 @@ To optimize the **/products** API let's address the problems in the current impl
 5. **Incomplete Filters**:
     - Filters like categories are present but not utilized effectively. Additional filters are missing.
 
-## Check List ✅
+## Checklist ✅
 - [x] Implementing Top 10 Most Frequently Ordered Products API in a Specific Area.
 - [x] Optimizing the Database query and indexing Using Redis to handle millions of requests efficiently.
 - [x] Optimizing a Poorly Implemented List Products API
