@@ -14,6 +14,10 @@
 git clone https://github.com/MohamedRagaab/Rabbit-Coding-Challenge.git
 cd Rabbit-Coding-Challenge
 ```
+* You can run the following command to build the app
+``` bash
+yarn install
+```
 * You can run the following command to test the app
 ``` bash
 npm test
